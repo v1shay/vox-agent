@@ -1,61 +1,69 @@
-# vox-agent
-> A real-time hardware-integrated audio intelligence system built in Python, transforming live speech from devices like AirPods or Mac microphones into structured output using CoreAudio, Whisper, and OpenAI API integration.
+<div align="center">
+
+<img width="1526" height="1030" alt="PNG image" src="https://github.com/user-attachments/assets/a024d807-f010-4bce-82d2-e2b69c928c8d" />
+
+---
+
+**Vox-agent is a hardware-integrated audio intelligence system** with near-0 I/O overhead, a <1s processing loop, and continuous real-time output.
+
+It runs entirely from the command line, converting live speech into structured markdowns with low latency.
+
+</div>
 
 ---
 
 ## Features
-- Real-time microphone streaming via macOS CoreAudio (AirPods/Mac input)  
+
+- Real-time microphone streaming via macOS CoreAudio (AirPods / Mac input)  
 - Incremental speech-to-text using Whisper (local CPU inference)  
+- Rolling transcript accumulation with chunked processing  
 - Mode-based structured formatting (meeting, study, recitation, interview)  
+- Sub-second formatting loop using an OpenAI API  
+- Markdown session export for persistent structured notes  
+- CLI configuration for chunk size and formatting interval  
 - Secure API key management via environment variables  
-- Markdown session export for persistent notes  
-- CLI-based configuration for chunk size and formatting interval  
 
 ---
 
-## Why This Exists
-Voice notes and transcripts are often unstructured and difficult to review. Context is lost in raw text, and important decisions or insights are buried in paragraphs of speech.
+## Architecture
 
-This project exists to explore how live audio input can be transformed into structured intelligence in real time. Instead of storing raw recordings or flat transcripts, the system converts speech into organized summaries, action items, and conceptual breakdowns as it is spoken.
-
-The goal is not complexity, but clarity through structured reasoning.
-
----
-
-## How It Works
-The system follows a layered, modular architecture.
-
-1. Microphone input is captured using CoreAudio via the `sounddevice` library  
-2. Audio frames are buffered and processed in rolling chunks  
-3. Whisper performs local speech recognition on each chunk  
-4. The transcript is accumulated incrementally  
-5. At fixed intervals, the transcript is sent to the OpenAI API for structured semantic formatting  
-6. Structured output is printed to the console and saved as Markdown  
-
-The system runs entirely from the command line and requires no frontend or backend services.
+| Layer | Purpose | Stack |
+|---|---|---|
+| Input | Live audio capture from hardware | CoreAudio + sounddevice |
+| Buffering | Chunking + rolling window management | Python streaming loop |
+| Transcription | Speech → text (incremental) | Whisper (local inference) |
+| Processing | Transcript accumulation + timing control | Python |
+| Formatting | Semantic structuring of text | OpenAI API (gpt-4o-mini) |
+| Output | Console + Markdown export | CLI + file system |
 
 ---
 
-## Tech Stack
-- **Language:** Python  
-- **Audio Streaming:** macOS CoreAudio (sounddevice)  
-- **Speech Recognition:** OpenAI Whisper (local inference)  
-- **LLM Integration:** OpenAI API (gpt-4o-mini)  
-- **Environment Management:** python-dotenv  
-- **Version Control:** Git  
+## Anatomy
 
----
-
-## Project Structure
-```text
+```txt
 vox-agent/
 ├── app/
-│   ├── stream.py
-│   ├── transcribe.py
-│   ├── llm.py
-│   └── run_live.py
-├── out/
+│   ├── stream.py        # audio capture and buffering
+│   ├── transcribe.py   # whisper inference pipeline
+│   ├── llm.py          # formatting + API calls
+│   └── run_live.py     # orchestration loop
+├── out/                # markdown session outputs
 ├── requirements.txt
 ├── .env
-└── README.md
+└── README.md<img width="1526" height="1030" alt="PNG image" src="https://github.com/user-attachments/assets/f23c7184-2169-4a13-a9fd-d182536ddcbd" />
+```
 
+## Install
+
+```bash
+git clone https://github.com/your-username/vox-agent.git
+cd vox-agent
+pip install -r requirements.txt
+python app/run_live.py
+```
+
+## Install missing dependencies
+
+```bash
+brew install portaudio
+```
