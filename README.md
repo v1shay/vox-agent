@@ -37,7 +37,7 @@ It runs entirely from the command line, converting live speech into structured m
 | Formatting | Semantic structuring of text | OpenAI API (gpt-4o-mini) |
 | Output | Console + Markdown export | CLI + file system |
 
----
+--- 
 
 ## Anatomy
 
@@ -51,7 +51,7 @@ vox-agent/
 ├── out/                # markdown session outputs
 ├── requirements.txt
 ├── .env
-└── README.md<img width="1526" height="1030" alt="PNG image" src="https://github.com/user-attachments/assets/f23c7184-2169-4a13-a9fd-d182536ddcbd" />
+└── README.md
 ```
 
 ## Install
@@ -68,3 +68,4 @@ python app/run_live.py
 ```bash
 brew install portaudio
 ```
+<img width="1526" height="1030" alt="PNG image" src="https://github.com/user-attachments/assets/f23c7184-2169-4a13-a9fd-d182536ddcbd" />
